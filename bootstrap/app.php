@@ -13,10 +13,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Si no hay sesión: en la API no se redirige a ninguna página de login
+        $middleware->redirectGuestsTo(function (Request $request) {
+            return $request->is('api/*') ? null : '/login';
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
-        );
+        // En las rutas de la API, los errores siempre en JSON
+        $exceptions->shouldRenderJsonWhen(function (Request $request) {
+            return $request->is('api/*');
+        });
     })->create();
