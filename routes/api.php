@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcademyController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // CRUD de academias
     Route::apiResource('academies', AcademyController::class);
+
+    // CRUD de cursos
+    Route::apiResource('courses', CourseController::class);
 });
